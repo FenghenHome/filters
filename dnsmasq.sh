@@ -173,7 +173,7 @@ netflix() {
 
 complete() {
     mkdir rules
-    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf ignore.list unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
+    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
 }
 
 cnlist
