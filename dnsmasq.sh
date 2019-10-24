@@ -70,7 +70,7 @@ adblock() {
     grep ^\|\|[^\*]*\^$ |
     sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
 
-    wget -4 -O - https://raw.githubusercontent.com/adbyby/xwhyc-rules/master/lazy.txt |
+    wget -4 -O - https://raw.githubusercontent.com/FenghenHome/adguard-home-filters/master/rules/Adbyby.txt |
     grep ^\|\|[^\*]*\^$ |
     sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
 
