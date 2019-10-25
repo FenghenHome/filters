@@ -38,7 +38,7 @@ cnlist_unbound() {
 }
 
 cnlist_dnscrypt() {
-    cat dnsmasq.accelerated-domains.conf | grep -v '^#server' | sed -e 's|/| |g' -e 's|^server= ||' | sed 's/119.29.29.29/119.29.107.85,118.24.208.197,47.101.136.37,114.115.240.175/g' >dnscrypt-forwarding-rules.conf
+    cat dnsmasq.accelerated-domains.conf | grep -v '^#server' | sed -e 's|/| |g' -e 's|^server= ||' >dnscrypt-forwarding-rules.conf
 }
 
 adblock() {
