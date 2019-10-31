@@ -42,37 +42,9 @@ cnlist_dnscrypt() {
 }
 
 adblock() {
-    wget -4 -O - https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt |
+    wget -4 -O - https://raw.githubusercontent.com/FenghenHome/adguard-home-filters/gh-pages/filters.txt |
     grep ^\|\|[^\*]*\^$ |
     sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq > dnsmasq.adblock-domains.conf
-
-    wget -4 -O - https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjx-annoyance.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq > adblock.ext.conf
-
-    wget -4 -O - https://easylist-downloads.adblockplus.org/easyprivacy.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
-
-    wget -4 -O - https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/ABP-FX.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
-
-    wget -4 -O - http://tools.yiclear.com/ChinaList2.0.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
-
-    wget -4 -O - https://gitee.com/halflife/list/raw/master/ad.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
-
-    wget -4 -O - https://gitee.com/banbendalao/adguard/raw/master/ADgk.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
-
-    wget -4 -O - https://raw.githubusercontent.com/FenghenHome/adguard-home-filters/master/rules/Adbyby.txt |
-    grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq >> adblock.ext.conf
 
     wget -4 -O union.conf https://raw.githubusercontent.com/vokins/yhosts/master/dnsmasq/union.conf
     sed -i 's/0.0.0.0/127.0.0.1/g; s/address\=\/\./address\=\//g; s/address\=\/\./address\=\//g; /#/d' union.conf
@@ -80,21 +52,12 @@ adblock() {
     wget -4 -O ad.conf http://iytc.net/tools/ad.conf
 
     # dnsmasq.adblock-domains.conf
-    cat dnsmasq.adblock-domains.conf adblock.ext.conf > file.txt
-    rm -rf dnsmasq.adblock-domains.conf adblock.ext.conf
-    awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
-    rm -rf file.txt
     cat dnsmasq.adblock-domains.conf union.conf > file.txt
     rm -rf dnsmasq.adblock-domains.conf union.conf
     awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
     rm -rf file.txt
     cat dnsmasq.adblock-domains.conf ad.conf > file.txt
     rm -rf dnsmasq.adblock-domains.conf ad.conf
-    awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
-    rm -rf file.txt
-    bash blockad.sh
-    cat dnsmasq.adblock-domains.conf blockad.conf > file.txt
-    rm -rf dnsmasq.adblock-domains.conf blockad.conf
     awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
     rm -rf file.txt
     cat dnsmasq.adblock-domains.conf myblock.conf > file.txt
