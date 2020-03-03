@@ -110,7 +110,7 @@ blacklist_ips_dnscrypt() {
 gfwlist() {
     # wget -4 -O dnsmasq.gfw-domains.conf https://cokebar.github.io/gfwlist2dnsmasq/dnsmasq_gfwlist_ipset.conf
     # wget -4 -O dnsmasq.gfw-domains.conf https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/gh-pages/dnsmasq_gfwlist_ipset.conf
-    wget -4 -O gfwlist2dnsmasq.sh https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh && chmod +x gfwlist2dnsmasq.sh && bash gfwlist2dnsmasq.sh -s gfwlist -o dnsmasq.gfw-domains.tmp.conf
+    wget -4 -O gfwlist2dnsmasq.sh https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh && chmod +x gfwlist2dnsmasq.sh && bash gfwlist2dnsmasq.sh -p 5335 -s gfwlist -o dnsmasq.gfw-domains.tmp.conf
     cat dnsmasq.gfw-domains.tmp.conf | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.gfw-domains.conf
     rm -rf gfwlist2dnsmasq.sh dnsmasq.gfw-domains.tmp.conf
 }
@@ -132,7 +132,7 @@ gfwlist_adguardhome() {
 }
 
 netflix() {
-    wget -4 -O - https://raw.githubusercontent.com/ab77/netflix-proxy/master/proxy-domains.txt | sed -e 's|\(.*\)|server=/\1/127.0.0.1#5353\nipset=/\1/gfwlist|' | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.netflix-domains.conf
+    wget -4 -O - https://raw.githubusercontent.com/ab77/netflix-proxy/master/proxy-domains.txt | sed -e 's|\(.*\)|server=/\1/127.0.0.1#5335\nipset=/\1/gfwlist|' | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.netflix-domains.conf
 }
 
 complete() {
