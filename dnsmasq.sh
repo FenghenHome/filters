@@ -44,12 +44,13 @@ cnlist_dnscrypt() {
 adblock() {
     wget -4 -O - https://raw.githubusercontent.com/FenghenHome/adguard-home-filters/gh-pages/filters.txt |
     grep ^\|\|[^\*]*\^$ |
-    sed -e 's:||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' | uniq > dnsmasq.adblock-domains.conf
+    sed -e 's:||:address\=\/:' -e 's:\^:/0\.0\.0\.0:' | uniq > dnsmasq.adblock-domains.conf
 
-    wget -4 -O union.conf https://raw.githubusercontent.com/vokins/yhosts/master/dnsmasq/union.conf
-    sed -i 's/0.0.0.0/127.0.0.1/g; s/address\=\/\./address\=\//g; s/address\=\/\./address\=\//g; /#/d' union.conf
+    wget -4 -O - https://raw.githubusercontent.com/vokins/yhosts/master/dnsmasq/union.conf |
+    sed -e 's/address\=\/\./address\=\//g; s/address\=\/\./address\=\//g; /#/d' > union.conf
 
-    wget -4 -O ad.conf http://iytc.net/tools/ad.conf
+    wget -4 -O - http://iytc.net/tools/ad.conf |
+    sed -e 's/127.0.0.1/0.0.0.0/g; s/address\=\/\./address\=\//g; s/address\=\/\./address\=\//g; /#/d' > ad.conf
 
     # dnsmasq.adblock-domains.conf
     cat dnsmasq.adblock-domains.conf union.conf > file.txt
@@ -67,23 +68,23 @@ adblock() {
     sort -n dnsmasq.adblock-domains.conf | uniq > file.txt
     sort -n file.txt | awk '{if($0!=line)print; line=$0}' > tmp.txt
     sort -n tmp.txt | tr -s '\n' | tr A-Z a-z | sed '$!N; /^\(.*\)\n\1$/!P; D' | sed 's/\.\//\//g' | grep -v '[#].*\/' | grep '[.].*\/' > dnsmasq.adblock-domains.conf
-    sed -i "/\/m\.baidu\.com\/127/d" dnsmasq.adblock-domains.conf
+    sed -i "/\/m\.baidu\.com\/0/d" dnsmasq.adblock-domains.conf
     rm -rf file.txt tmp.txt
-    cat dnsmasq.adblock-domains.conf | sed 's/address/server/g; s/127\.0\.0\.1//g' > dnsmasq.adblock-domains.nxdomain.conf
+    cat dnsmasq.adblock-domains.conf | sed 's/address/server/g; s/0\.0\.0\.0//g' > dnsmasq.adblock-domains.nxdomain.conf
 }
 
 adblock_overture() {
-    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/127\.0\.0\.1//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|127.0.0.1 *.\1|' > overture.adblock-domains.conf
-    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/127\.0\.0\.1//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|::1 *.\1|' >> overture.adblock-domains.conf
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|0.0.0.0 *.\1|' > overture.adblock-domains.conf
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|:: *.\1|' >> overture.adblock-domains.conf
 }
 
 adblock_unbound() {
-    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/127\.0\.0\.1//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|local-zone: "\1." redirect\nlocal-data: "\1. A 127.0.0.1"\nlocal-data: "\1. AAAA ::1"\n|' > unbound.adblock-domains.conf
-    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/127\.0\.0\.1//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|local-zone: "\1." static\n|' > unbound.adblock-domains.nxdomain.conf
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|local-zone: "\1." redirect\nlocal-data: "\1. A 0.0.0.0"\nlocal-data: "\1. AAAA ::"\n|' > unbound.adblock-domains.conf
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|local-zone: "\1." static\n|' > unbound.adblock-domains.nxdomain.conf
 }
 
 adblock_dnscrypt() {
-    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/127\.0\.0\.1//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' > toblock-without-shorturl-optimized.lst
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' > toblock-without-shorturl-optimized.lst
     echo 'ad.*' >>dnscrypt-blacklist-domains.conf
     echo 'ad[0-9]*' >>dnscrypt-blacklist-domains.conf
     echo 'ads.*' >>dnscrypt-blacklist-domains.conf
@@ -99,7 +100,7 @@ chinalist_ips() {
 
 blacklist_ips_dnscrypt() {
     cat dnsmasq.bogus-nxdomain.conf | grep -v '^#bogus' | grep bogus-nxdomain | sed 's/bogus-nxdomain=//g' > dnscrypt-blacklist-ips.conf
-    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/127\.0\.0\.1//g' | grep -E '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' >> dnscrypt-blacklist-ips.conf
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' >> dnscrypt-blacklist-ips.conf
     sort -n dnscrypt-blacklist-ips.conf | uniq > file.txt
     sort -n file.txt | awk '{if($0!=line)print; line=$0}'> tmp.txt
     sort -n tmp.txt | sed '$!N; /^\(.*\)\n\1$/!P; D'> dnscrypt-blacklist-ips.conf
