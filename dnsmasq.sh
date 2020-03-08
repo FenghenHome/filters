@@ -110,7 +110,8 @@ gfwlist() {
     # wget -4 -O dnsmasq.gfw-domains.conf https://cokebar.github.io/gfwlist2dnsmasq/dnsmasq_gfwlist_ipset.conf
     # wget -4 -O dnsmasq.gfw-domains.conf https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/gh-pages/dnsmasq_gfwlist_ipset.conf
     wget -4 -O gfwlist2dnsmasq.sh https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh && chmod +x gfwlist2dnsmasq.sh && bash gfwlist2dnsmasq.sh -p 5335 -s gfwlist -o dnsmasq.gfw-domains.tmp.conf
-    cat dnsmasq.gfw-domains.tmp.conf | sed -i '/^#/d;/^$/d' | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.gfw-domains.conf
+    sed -i '/^#/d;/^$/d' dnsmasq.gfw-domains.tmp.conf
+    cat dnsmasq.gfw-domains.tmp.conf | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.gfw-domains.conf
     rm -rf gfwlist2dnsmasq.sh dnsmasq.gfw-domains.tmp.conf
 }
 
