@@ -46,21 +46,6 @@ adblock() {
     grep ^\|\|[^\*]*\^$ |
     sed -e 's:||:address\=\/:' -e 's:\^:/0\.0\.0\.0:' | uniq > dnsmasq.adblock-domains.conf
 
-    wget -4 -O - https://raw.githubusercontent.com/vokins/yhosts/master/dnsmasq/union.conf |
-    sed -e 's/address\=\/\./address\=\//g; s/address\=\/\./address\=\//g; /#/d' > union.conf
-
-    wget -4 -O - http://iytc.net/tools/ad.conf |
-    sed -e 's/127.0.0.1/0.0.0.0/g; s/address\=\/\./address\=\//g; s/address\=\/\./address\=\//g; /#/d' > ad.conf
-
-    # dnsmasq.adblock-domains.conf
-    cat dnsmasq.adblock-domains.conf union.conf > file.txt
-    rm -rf dnsmasq.adblock-domains.conf union.conf
-    awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
-    rm -rf file.txt
-    cat dnsmasq.adblock-domains.conf ad.conf > file.txt
-    rm -rf dnsmasq.adblock-domains.conf ad.conf
-    awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
-    rm -rf file.txt
     cat dnsmasq.adblock-domains.conf myblock.conf > file.txt
     rm -rf dnsmasq.adblock-domains.conf
     awk '!x[$0]++' file.txt > dnsmasq.adblock-domains.conf
