@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: build
-      run: ./dnsmasq.sh
+      run: bash dnsmasq.sh
       shell: bash
 
     - name: Deploy
