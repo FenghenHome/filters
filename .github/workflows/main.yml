@@ -1,0 +1,28 @@
+name: Build rules
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '30 1 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: build
+      run: ./dnsmasq.sh
+      shell: bash
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: rules
