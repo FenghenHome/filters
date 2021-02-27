@@ -18,7 +18,6 @@ jobs:
 
     - name: build
       run: bash dnsmasq.sh
-      shell: bash
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
