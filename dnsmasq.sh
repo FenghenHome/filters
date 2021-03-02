@@ -78,6 +78,10 @@ adblock_dnscrypt() {
     rm toblock-without-shorturl-optimized.lst
 }
 
+adblock_smartdns() {
+    cat dnsmasq.adblock-domains.conf | sed 's/address=\///g; s/\/0\.0\.0\.0//g' | grep -E -v '([^0-9]|\b)((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9][0-9]|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])([^0-9]|\b)' | sed -e 's|\(.*\)|address /\1/#|' > smartdns.adblock-domains.conf
+}
+
 chinalist_ips() {
     wget -4 -O ignore-ips.china.conf https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt
 }
@@ -122,7 +126,7 @@ netflix() {
 
 complete() {
     mkdir rules
-    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
+    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf smartdns.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
 }
 
 cnlist
@@ -132,6 +136,7 @@ cnlist_dnscrypt
 adblock
 adblock_overture
 adblock_unbound
+adblock_smartdns
 adblock_dnscrypt
 chinalist_ips
 blacklist_ips_dnscrypt
