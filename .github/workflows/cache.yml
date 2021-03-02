@@ -1,0 +1,40 @@
+name: Clear cache
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '45 16 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Clear cache
+      run: |
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnsmasq.accelerated-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnsmasq.bogus-nxdomain.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnsmasq.adblock-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnsmasq.adblock-domains.nxdomain.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnsmasq.gfw-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnsmasq.netflix-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/unbound.adblock-domains.nxdomain.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/unbound.adblock-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/unbound.gfw-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/unbound.accelerated-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/overture.gfw-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/overture.accelerated-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/overture.adblock-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnscrypt-blacklist-ips.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnscrypt-blacklist-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnscrypt-cloaking-rules.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnscrypt-forwarding-rules.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/smartdns.adblock-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/adguardhome.gfw-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/ignore-ips.china.conf
