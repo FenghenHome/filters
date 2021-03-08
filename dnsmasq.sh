@@ -102,6 +102,10 @@ gfwlist() {
     sed -i '/^#/d;/^$/d' dnsmasq.gfw-domains.tmp.conf
     cat dnsmasq.gfw-domains.tmp.conf | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.gfw-domains.conf
     rm -rf gfwlist2dnsmasq.sh dnsmasq.gfw-domains.tmp.conf
+    wget -4 -O gfwlist2dnsmasq.sh https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh && chmod +x gfwlist2dnsmasq.sh && bash gfwlist2dnsmasq.sh -p 5353 -s gfwlist -o dnsmasq.gfw-domains.tmp.conf
+    sed -i '/^#/d;/^$/d' dnsmasq.gfw-domains.tmp.conf
+    cat dnsmasq.gfw-domains.tmp.conf | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.gfw-domains-padavan.conf
+    rm -rf gfwlist2dnsmasq.sh dnsmasq.gfw-domains.tmp.conf
 }
 
 gfwlist_overture() {
@@ -126,7 +130,7 @@ netflix() {
 
 complete() {
     mkdir rules
-    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf smartdns.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
+    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf dnsmasq.gfw-domains-padavan.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf smartdns.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
 }
 
 cnlist
