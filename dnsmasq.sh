@@ -124,13 +124,17 @@ gfwlist_adguardhome() {
     cat overture.gfw-domains.conf | sed -e 's|\(.*\)|[/\1/]8.8.8.8:53|' > adguardhome.gfw-domains.conf
 }
 
+gfwlist_smartdns() {
+    cat overture.gfw-domains.conf | sed -e 's|\(.*\)|nameserver \/\1\/oversea\nipset \/\1\/gfwlist|' > smartdns.gfw-domains.conf
+}
+
 netflix() {
     wget -4 -O - https://raw.githubusercontent.com/ab77/netflix-proxy/master/proxy-domains.txt | sed -e 's|\(.*\)|server=/\1/127.0.0.1#5335\nipset=/\1/gfwlist|' | tr -s '\n' | tr A-Z a-z | grep -v '[#].*\/' > dnsmasq.netflix-domains.conf
 }
 
 complete() {
     mkdir rules
-    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf dnsmasq.gfw-domains-padavan.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf smartdns.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf rules
+    mv dnsmasq.accelerated-domains.conf dnsmasq.bogus-nxdomain.conf dnsmasq.adblock-domains.conf dnsmasq.adblock-domains.nxdomain.conf ignore-ips.china.conf dnsmasq.gfw-domains.conf dnsmasq.gfw-domains-padavan.conf unbound.gfw-domains.conf overture.gfw-domains.conf overture.accelerated-domains.conf unbound.accelerated-domains.conf dnscrypt-blacklist-ips.conf dnscrypt-blacklist-domains.conf dnscrypt-cloaking-rules.conf dnscrypt-forwarding-rules.conf unbound.adblock-domains.conf smartdns.adblock-domains.conf unbound.adblock-domains.nxdomain.conf overture.adblock-domains.conf dnsmasq.netflix-domains.conf adguardhome.gfw-domains.conf smartdns.gfw-domains.conf rules
 }
 
 cnlist
@@ -149,5 +153,6 @@ gfwlist_overture
 gfwlist_unbound
 gfwlist_dnscrypt
 gfwlist_adguardhome
+gfwlist_smartdns
 netflix
 complete
