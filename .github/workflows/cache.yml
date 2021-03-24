@@ -36,5 +36,7 @@ jobs:
         curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnscrypt-cloaking-rules.conf
         curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/dnscrypt-forwarding-rules.conf
         curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/smartdns.adblock-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/smartdns.gfw-domains.conf
+        curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/smartdns.adblock-domains.conf
         curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/adguardhome.gfw-domains.conf
         curl -s https://purge.jsdelivr.net/gh/FenghenHome/filters@gh-pages/ignore-ips.china.conf
